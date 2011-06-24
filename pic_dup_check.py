@@ -56,6 +56,10 @@ pic_index = 0
 for pic in pics:
     try:
         im = Image.open(pic)
+    except IOError:
+        sys.stderr.write("Failed to open {0} as image.\n".format(pic))
+        num_pics -= 1
+    else:
         im = im.resize((8, 8), Image.BILINEAR)
         grayscale_pixels = map(avg, list(im.getdata()))
         del im
@@ -63,10 +67,7 @@ for pic in pics:
         img_hashes.append((pic, [(pixel > pixel_avg) for pixel in grayscale_pixels]))
         pic_index += 1
         if args.verbose:
-            print("Hashed {0}/{1} images.".format(pic_index, num_pics))
-    except:
-        print("Failed to open {0} as image.".format(pic))
-        num_pics -= 1
+            print("Hashed {0}/{1}(?) images.".format(pic_index, num_pics))
 
 similar = {}
 pair_index = 0
