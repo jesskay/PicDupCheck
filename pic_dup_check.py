@@ -46,7 +46,7 @@ for item in items:
     if args.recursive_check and os.path.isdir(item):
         for root, dirs, files in os.walk(item):
             full_fname = lambda fname : os.path.join(root, fname)
-            pics.extend(map(full_fname, files))
+            pics.extend(list(map(full_fname, files)))
     elif os.path.isfile(item):
         pics.append(item)
 
@@ -61,7 +61,7 @@ for pic in pics:
         num_pics -= 1
     else:
         im = im.resize((8, 8), Image.BILINEAR)
-        grayscale_pixels = map(avg, list(im.getdata()))
+        grayscale_pixels = list(map(avg, list(im.getdata())))
         del im
         pixel_avg = avg(grayscale_pixels)
         img_hashes.append((pic, [(pixel > pixel_avg) for pixel in grayscale_pixels]))
