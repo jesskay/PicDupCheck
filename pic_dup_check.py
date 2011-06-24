@@ -2,6 +2,12 @@
 from __future__ import division, print_function
 import sys, Image, argparse, os, glob
 
+# use range to mean the same thing in both python 2 and 3
+try:
+    range = xrange
+except:
+    pass  # we're on python 3 anyway, do nothing
+
 ## change these variables to configure the defaults for the script
 D_SIMILARITY_THRESHOLD = 90  # default minimum similarity % required to be added to the output; 90% is a better baseline if looking for resizes/full dupes only
 
@@ -72,8 +78,8 @@ for pic in pics:
 similar = {}
 pair_index = 0
 total_pairs = num_pairs(len(img_hashes))
-for a_index in xrange(len(img_hashes)):
-    for b_index in xrange(a_index+1, len(img_hashes)):
+for a_index in range(len(img_hashes)):
+    for b_index in range(a_index+1, len(img_hashes)):
         a, b = img_hashes[a_index], img_hashes[b_index]
         diff = ((64 - hamming_distance(a[1], b[1]))*100)//64
         if diff >= args.similarity_threshold:
