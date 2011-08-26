@@ -62,11 +62,11 @@ pic_index = 0
 for pic in pics:
     try:
         im = Image.open(pic)
+        im = im.resize((8, 8), Image.BILINEAR)
     except IOError:
         sys.stderr.write("Failed to open {0} as image.\n".format(pic))
         num_pics -= 1
     else:
-        im = im.resize((8, 8), Image.BILINEAR)
         grayscale_pixels = list(map(avg, list(im.getdata())))
         del im
         pixel_avg = avg(grayscale_pixels)
